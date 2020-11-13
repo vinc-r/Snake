@@ -25,6 +25,10 @@ def handle_state_playing(game, screen, sound, state="playing", running=True):
         for cube in snake.body['cube']:
             screen.blit(cube.image, cube.rect)
 
+    # apply actual positions apple(s)
+    for cube in game.apples['cube']:
+        screen.blit(cube.image, cube.rect)
+
     for event in pygame.event.get():
 
         if event.type == pygame.KEYDOWN:
@@ -36,15 +40,19 @@ def handle_state_playing(game, screen, sound, state="playing", running=True):
                 return "menu", False
 
             elif event.key == AZERTY.K_UP:
-                game.snakes[0].move_up()
+                if game.snakes[0].move_up(game.apples) == "game over":
+                    return "game over", False
 
             elif event.key == AZERTY.K_LEFT:
-                game.snakes[0].move_left()
+                if game.snakes[0].move_left(game.apples) == "game over":
+                    return "game over", False
 
             elif event.key == AZERTY.K_RIGHT:
-                game.snakes[0].move_right()
+                if game.snakes[0].move_right(game.apples) == "game over":
+                    return "game over", False
 
             elif event.key == AZERTY.K_DOWN:
-                game.snakes[0].move_down()
+                if game.snakes[0].move_down(game.apples) == "game over":
+                    return "game over", False
 
     return state, running

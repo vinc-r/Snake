@@ -4,7 +4,7 @@ from constants import CUBE_SIZE
 
 class Cube(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, cube_type="bg", id_player=None, rotation="S"):
+    def __init__(self, x, y, cube_type="bg", id_player=None, rotation="E"):
         super().__init__()
 
         if cube_type in ["head", "dark", "light"]:

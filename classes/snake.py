@@ -1,7 +1,7 @@
 import pygame
 from constants import *
 import random
-random.seed(2)
+random.seed(RANDOM_SEED)
 from classes.cube import Cube
 
 class Snake():
@@ -54,7 +54,11 @@ class Snake():
     def update_snake(self):
         pass
 
-    def move_up(self):
+    def move_up(self, apples):
+        if self.orientation == "S":
+            return
+        if self.body['pos'][-1][1]-1 < 0:
+            return 'game over'
         self.body['pos'].append([self.body['pos'][-1][0], self.body['pos'][-1][1]-1])
         self.body['pos'].pop(0)
         self.update_cube_pos()
@@ -64,7 +68,11 @@ class Snake():
             self.body['cube'][0].rotate_right()
         self.orientation = "N"
 
-    def move_down(self):
+    def move_down(self, apples):
+        if self.orientation == "N":
+            return
+        if self.body['pos'][-1][1]+1 >= SNAKE_HEIGHT:
+            return 'game over'
         self.body['pos'].append([self.body['pos'][-1][0], self.body['pos'][-1][1]+1])
         self.body['pos'].pop(0)
         self.update_cube_pos()
@@ -74,7 +82,11 @@ class Snake():
             self.body['cube'][0].rotate_left()
         self.orientation = "S"
 
-    def move_right(self):
+    def move_right(self, apples):
+        if self.orientation == "O":
+            return
+        if self.body['pos'][-1][0]+1 >= SNAKE_WIDTH:
+            return 'game over'
         self.body['pos'].append([self.body['pos'][-1][0]+1, self.body['pos'][-1][1]])
         self.body['pos'].pop(0)
         self.update_cube_pos()
@@ -84,7 +96,11 @@ class Snake():
             self.body['cube'][0].rotate_right()
         self.orientation = "E"
 
-    def move_left(self):
+    def move_left(self, apples):
+        if self.orientation == "E":
+            return
+        if self.body['pos'][-1][0]-1 < 0:
+            return 'game over'
         self.body['pos'].append([self.body['pos'][-1][0]-1, self.body['pos'][-1][1]])
         self.body['pos'].pop(0)
         self.update_cube_pos()
@@ -98,3 +114,4 @@ class Snake():
         for i in range(self.size):
             self.body['cube'][i].rect.x = MARGIN+(1+self.body['pos'][i][0])*CUBE_SIZE
             self.body['cube'][i].rect.y = MARGIN+(1+self.body['pos'][i][1])*CUBE_SIZE
+
