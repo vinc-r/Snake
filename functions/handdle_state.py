@@ -19,11 +19,11 @@ def handle_state_playing(game, screen, sound, state="playing", running=True):
     for cube in game.grid:
         screen.blit(cube.image, cube.rect)
 
-    # apply actual tetrimino
-    """
-    for cube in game.tetrimino.cubes:
-        screen.blit(cube.image, cube.rect)
-    """
+    
+    # apply actual positions snake(s)
+    for snake in game.snakes:
+        for cube in snake.body['cube']:
+            screen.blit(cube.image, cube.rect)
 
     for event in pygame.event.get():
 
@@ -34,5 +34,17 @@ def handle_state_playing(game, screen, sound, state="playing", running=True):
 
             elif event.key == pygame.K_ESCAPE:
                 return "menu", False
+
+            elif event.key == AZERTY.K_UP:
+                game.snakes[0].move_up()
+
+            elif event.key == AZERTY.K_LEFT:
+                game.snakes[0].move_left()
+
+            elif event.key == AZERTY.K_RIGHT:
+                game.snakes[0].move_right()
+
+            elif event.key == AZERTY.K_DOWN:
+                game.snakes[0].move_down()
 
     return state, running

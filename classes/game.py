@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 from classes.cube import Cube
+from classes.snake import Snake
 import random
 random.seed(RANDOM_SEED)
 
@@ -13,21 +14,7 @@ class Game:
     def __init__(self, nb_players=1):
 
         self.nb_players = nb_players
-        self.score = [0] * nb_players
-        # apply randomly head positions of snakes for each player(s)
-        if nb_players == 1:
-            self.snakes_pos = [[
-                [
-                    random.randint(SNAKE_WIDTH*0.1, SNAKE_WIDTH*.9),
-                    random.randint(SNAKE_HEIGHT*0.1, SNAKE_HEIGHT*.9)
-                    ]] for id_player in range(nb_players)]
-        else:
-            self.snakes_pos = [
-                [[random.randint(SNAKE_WIDTH*0.1/2, SNAKE_WIDTH*.9/2),
-                random.randint(SNAKE_HEIGHT*0.1, SNAKE_HEIGHT*.9)]],
-                [[random.randint(SNAKE_WIDTH*0.55, SNAKE_WIDTH*.95),
-                random.randint(SNAKE_HEIGHT*0.1, SNAKE_HEIGHT*.9)]]
-                ]
+        self.snakes = [Snake(id_player=i) for i in range(1,nb_players+1)]
 
         # set clock for movements
         self.clock = pygame.time.Clock()
@@ -39,19 +26,17 @@ class Game:
         for line in self.grid_list:
             for cube in line:
                 if cube == "w":
-                    self.grid.append(Cube(x=x, y=y, type="wall"))
+                    self.grid.append(Cube(x=x, y=y, cube_type="wall"))
                 elif cube == "e":
                     self.grid.append(Cube(x=x, y=y))
                 x += CUBE_SIZE
             x = MARGIN
             y += CUBE_SIZE
 
-
-
     def update_game(self):
-        pass
+        for snake in self.snakes:
+            snake.update_snake()
         
-
     def get_playing_time(self):
         return self.time_playing / 1000
 

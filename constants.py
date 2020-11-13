@@ -29,12 +29,12 @@ MAX_NAME_LENGTH = 6
 ##################
 
 # Dimmensions of the board game arena
-SNAKE_WIDTH = 40
-SNAKE_HEIGHT = 40
+SNAKE_WIDTH = 35
+SNAKE_HEIGHT = 35
 MARGIN = 10
 
 # SIze of snake cube (in pixels)
-CUBE_SIZE = 10
+CUBE_SIZE = 20
 
 GRID_INIT = np.array([["w"] * (SNAKE_WIDTH + 2)] * (SNAKE_HEIGHT + 2))
 GRID_INIT[1:-1, 1:-1] = "e"
