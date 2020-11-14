@@ -29,8 +29,8 @@ MAX_NAME_LENGTH = 6
 ##################
 
 # Dimmensions of the board game arena
-SNAKE_WIDTH = 10
-SNAKE_HEIGHT = 10
+SNAKE_WIDTH = 9
+SNAKE_HEIGHT = 9
 MARGIN = 10
 
 # SIze of snake cube (in pixels)
@@ -52,9 +52,12 @@ RANDOM_SEED = 1
 class AZERTY:
     """AZERTY TRANSLATION"""
     K_a = pygame.K_q
+    K_z = pygame.K_w
+    K_q = pygame.K_a
+    K_s = pygame.K_s
+    K_d = pygame.K_d
     K_p = pygame.K_p
     K_r = pygame.K_r
-    K_q = pygame.K_a
     K_l = pygame.K_l
     K_m = pygame.K_SEMICOLON
     K_SPACE = pygame.K_SPACE

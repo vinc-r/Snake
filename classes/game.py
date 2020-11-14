@@ -11,10 +11,10 @@ class Game:
     Game class
     """
 
-    def __init__(self, nb_players=1):
+    def __init__(self, nb_players=2):
 
         self.nb_players = nb_players
-        self.snakes = [Snake(id_player=i) for i in range(1,nb_players+1)]
+        self.snakes = [Snake(id_player=i, nb_players=nb_players) for i in range(1,nb_players+1)]
         print("player position :", self.snakes[0].body['pos'])
 
         # set clock for movements

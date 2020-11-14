@@ -55,4 +55,20 @@ def handle_state_playing(game, screen, sound, state="playing", running=True):
                 if game.snakes[0].move_down(game) == "game over":
                     return "game over", False
 
+            elif event.key == AZERTY.K_z:
+                if game.snakes[1].move_up(game) == "game over":
+                    return "game over", False
+
+            elif event.key == AZERTY.K_q:
+                if game.snakes[1].move_left(game) == "game over":
+                    return "game over", False
+
+            elif event.key == AZERTY.K_d:
+                if game.snakes[1].move_right(game) == "game over":
+                    return "game over", False
+
+            elif event.key == AZERTY.K_s:
+                if game.snakes[1].move_down(game) == "game over":
+                    return "game over", False
+
     return state, running

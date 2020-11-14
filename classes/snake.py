@@ -10,14 +10,23 @@ class Snake():
     Game class
     """
 
-    def __init__(self, id_player=1):
+    def __init__(self, id_player=1, nb_players=1):
 
         self.id_player = id_player
         self.size = 1
         self.score = 0
         self.orientation = random.choice(["E","N","O","S"])
 
-        pos = [int(SNAKE_WIDTH/2), int(SNAKE_HEIGHT/2)]
+        if nb_players ==1:
+            pos = [
+                int(round(np.quantile(np.arange(1,SNAKE_HEIGHT+1),.5))),
+                int(round(np.quantile(np.arange(1,SNAKE_WIDTH+1),.5)))
+                ]
+        else:
+            pos = [
+                int(round(np.quantile(np.arange(1,SNAKE_HEIGHT+1),.5))),
+                int(round(np.quantile(np.arange(1,SNAKE_WIDTH+1),-.25+id_player*.5))) 
+                ]
 
         self.body = {
             'pos' : [pos],
@@ -41,6 +50,8 @@ class Snake():
         new_pos = [self.body['pos'][-1][0]-1, self.body['pos'][-1][1]]
         if new_pos[0] <= 0 or new_pos in self.body['pos'][1:]:
             return 'game over'
+        elif game.nb_players > 1 and new_pos in game.snakes[-1*(self.id_player-2)].body['pos']:
+            return 'game over'
         # and new position for head (tail will be remove if no apple is eaten)
         self.body['pos'].append(new_pos)
         # cheack if eat an apple and eat it if possible
@@ -61,6 +72,8 @@ class Snake():
         # if goes outside arena limits => game over
         new_pos = [self.body['pos'][-1][0]+1, self.body['pos'][-1][1]]
         if self.body['pos'][-1][0]+1 > SNAKE_HEIGHT or new_pos in self.body['pos'][1:]:
+            return 'game over'
+        elif game.nb_players > 1 and new_pos in game.snakes[-1*(self.id_player-2)].body['pos']:
             return 'game over'
         # and new position for head (tail will be remove if no apple is eaten)
         self.body['pos'].append(new_pos)
@@ -83,6 +96,8 @@ class Snake():
         new_pos = [self.body['pos'][-1][0], self.body['pos'][-1][1]+1]
         if self.body['pos'][-1][1]+1 > SNAKE_WIDTH or new_pos in self.body['pos'][1:]:
             return 'game over'
+        elif game.nb_players > 1 and new_pos in game.snakes[-1*(self.id_player-2)].body['pos']:
+            return 'game over'
         # and new position for head (tail will be remove if no apple is eaten)
         self.body['pos'].append(new_pos)
         # cheack if eat an apple and eat it if possible
@@ -101,6 +116,8 @@ class Snake():
             return
         new_pos = [self.body['pos'][-1][0], self.body['pos'][-1][1]-1]
         if self.body['pos'][-1][1]-1 <= 0 or new_pos in self.body['pos'][1:]:
+            return 'game over'
+        elif game.nb_players > 1 and new_pos in game.snakes[-1*(self.id_player-2)].body['pos']:
             return 'game over'
         self.body['pos'].append(new_pos)
         self.eat_apple(game)
