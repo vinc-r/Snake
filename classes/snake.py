@@ -38,10 +38,11 @@ class Snake():
         if self.orientation == "S":
             return
         # if goes outside arena limits => game over
-        if self.body['pos'][-1][0]-1 <= 0:
+        new_pos = [self.body['pos'][-1][0]-1, self.body['pos'][-1][1]]
+        if new_pos[0] <= 0 or new_pos in self.body['pos'][1:]:
             return 'game over'
         # and new position for head (tail will be remove if no apple is eaten)
-        self.body['pos'].append([self.body['pos'][-1][0]-1, self.body['pos'][-1][1]])
+        self.body['pos'].append(new_pos)
         # cheack if eat an apple and eat it if possible
         self.eat_apple(game)
         # change orientation
@@ -58,10 +59,11 @@ class Snake():
         if self.orientation == "N":
             return
         # if goes outside arena limits => game over
-        if self.body['pos'][-1][0]+1 > SNAKE_HEIGHT:
+        new_pos = [self.body['pos'][-1][0]+1, self.body['pos'][-1][1]]
+        if self.body['pos'][-1][0]+1 > SNAKE_HEIGHT or new_pos in self.body['pos'][1:]:
             return 'game over'
         # and new position for head (tail will be remove if no apple is eaten)
-        self.body['pos'].append([self.body['pos'][-1][0]+1, self.body['pos'][-1][1]])
+        self.body['pos'].append(new_pos)
         # cheack if eat an apple and eat it if possible
         self.eat_apple(game)
         # change orientation
@@ -78,10 +80,11 @@ class Snake():
         if self.orientation == "O":
             return
         # if goes outside arena limits => game over
-        if self.body['pos'][-1][1]+1 > SNAKE_WIDTH:
+        new_pos = [self.body['pos'][-1][0], self.body['pos'][-1][1]+1]
+        if self.body['pos'][-1][1]+1 > SNAKE_WIDTH or new_pos in self.body['pos'][1:]:
             return 'game over'
         # and new position for head (tail will be remove if no apple is eaten)
-        self.body['pos'].append([self.body['pos'][-1][0], self.body['pos'][-1][1]+1])
+        self.body['pos'].append(new_pos)
         # cheack if eat an apple and eat it if possible
         self.eat_apple(game)
         # change orientation
@@ -96,9 +99,10 @@ class Snake():
     def move_left(self, game):
         if self.orientation == "E":
             return
-        if self.body['pos'][-1][1]-1 <= 0:
+        new_pos = [self.body['pos'][-1][0], self.body['pos'][-1][1]-1]
+        if self.body['pos'][-1][1]-1 <= 0 or new_pos in self.body['pos'][1:]:
             return 'game over'
-        self.body['pos'].append([self.body['pos'][-1][0], self.body['pos'][-1][1]-1])
+        self.body['pos'].append(new_pos)
         self.eat_apple(game)
         self.update_cube_pos()
         if self.orientation == "N":
