@@ -16,35 +16,14 @@ class Snake():
         self.size = 1
         self.score = 0
         self.orientation = random.choice(["E","N","O","S"])
-        """
-        # apply randomly head positions of snakes for each player(s)
-        self.head_pos = [
-                    random.randint(SNAKE_WIDTH*0.1, SNAKE_WIDTH*.9),
-                    random.randint(SNAKE_HEIGHT*0.1, SNAKE_HEIGHT*.9)
-                    ]
 
-        if nb_players == 1:
-            self.snakes_pos = [[
-                [
-                    random.randint(SNAKE_WIDTH*0.1, SNAKE_WIDTH*.9),
-                    random.randint(SNAKE_HEIGHT*0.1, SNAKE_HEIGHT*.9)
-                    ]] for id_player in range(nb_players)]
-        else:
-            self.snakes_pos = [
-                [[random.randint(SNAKE_WIDTH*0.1/2, SNAKE_WIDTH*.9/2),
-                random.randint(SNAKE_HEIGHT*0.1, SNAKE_HEIGHT*.9)]],
-                [[random.randint(SNAKE_WIDTH*0.55, SNAKE_WIDTH*.95),
-                random.randint(SNAKE_HEIGHT*0.1, SNAKE_HEIGHT*.9)]]
-                ]
-        """
-
-        pos = [int(SNAKE_WIDTH/2), int(SNAKE_HEIGHT/2)]
+        pos = [int(SNAKE_WIDTH/2)-1, int(SNAKE_HEIGHT/2)+1]
 
         self.body = {
             'pos' : [pos],
             'cube' : [Cube(
-                x=MARGIN+(1+pos[0])*(CUBE_SIZE),
-                y=MARGIN+(1+pos[1])*(CUBE_SIZE),
+                x=MARGIN+(pos[0])*(CUBE_SIZE),
+                y=MARGIN+(pos[1])*(CUBE_SIZE),
                 cube_type="head",
                 id_player=self.id_player,
                 rotation=self.orientation
@@ -54,10 +33,10 @@ class Snake():
     def update_snake(self):
         pass
 
-    def move_up(self, apples):
+    def move_up(self, game):
         if self.orientation == "S":
             return
-        if self.body['pos'][-1][1]-1 < 0:
+        if self.body['pos'][-1][1]-1 <= 0:
             return 'game over'
         self.body['pos'].append([self.body['pos'][-1][0], self.body['pos'][-1][1]-1])
         self.body['pos'].pop(0)
@@ -67,11 +46,14 @@ class Snake():
         elif self.orientation == "O":
             self.body['cube'][0].rotate_right()
         self.orientation = "N"
+        if self.body['pos'][-1] in game.apples['pos']:
+            print("apple to eat")
+        print("player position :", self.body['pos'], "\torientiation :",self.orientation)
 
-    def move_down(self, apples):
+    def move_down(self, game):
         if self.orientation == "N":
             return
-        if self.body['pos'][-1][1]+1 >= SNAKE_HEIGHT:
+        if self.body['pos'][-1][1]+1 > SNAKE_HEIGHT:
             return 'game over'
         self.body['pos'].append([self.body['pos'][-1][0], self.body['pos'][-1][1]+1])
         self.body['pos'].pop(0)
@@ -81,11 +63,14 @@ class Snake():
         elif self.orientation == "O":
             self.body['cube'][0].rotate_left()
         self.orientation = "S"
+        if self.body['pos'][-1] in game.apples['pos']:
+            print("apple to eat")
+        print("player position :", self.body['pos'], "\torientiation :",self.orientation)
 
-    def move_right(self, apples):
+    def move_right(self, game):
         if self.orientation == "O":
             return
-        if self.body['pos'][-1][0]+1 >= SNAKE_WIDTH:
+        if self.body['pos'][-1][0]+1 > SNAKE_WIDTH:
             return 'game over'
         self.body['pos'].append([self.body['pos'][-1][0]+1, self.body['pos'][-1][1]])
         self.body['pos'].pop(0)
@@ -95,11 +80,14 @@ class Snake():
         elif self.orientation == "N":
             self.body['cube'][0].rotate_right()
         self.orientation = "E"
+        if self.body['pos'][-1] in game.apples['pos']:
+            print("apple to eat")
+        print("player position :", self.body['pos'], "\torientiation :",self.orientation)
 
-    def move_left(self, apples):
+    def move_left(self, game):
         if self.orientation == "E":
             return
-        if self.body['pos'][-1][0]-1 < 0:
+        if self.body['pos'][-1][0]-1 <= 0:
             return 'game over'
         self.body['pos'].append([self.body['pos'][-1][0]-1, self.body['pos'][-1][1]])
         self.body['pos'].pop(0)
@@ -109,9 +97,12 @@ class Snake():
         elif self.orientation == "S":
             self.body['cube'][0].rotate_right()
         self.orientation = "O"
+        if self.body['pos'][-1] in game.apples['pos']:
+            print("apple to eat")
+        print("player position :", self.body['pos'], "\torientiation :",self.orientation)
 
     def update_cube_pos(self):
         for i in range(self.size):
-            self.body['cube'][i].rect.x = MARGIN+(1+self.body['pos'][i][0])*CUBE_SIZE
-            self.body['cube'][i].rect.y = MARGIN+(1+self.body['pos'][i][1])*CUBE_SIZE
+            self.body['cube'][i].rect.x = MARGIN+(self.body['pos'][i][0])*CUBE_SIZE
+            self.body['cube'][i].rect.y = MARGIN+(self.body['pos'][i][1])*CUBE_SIZE
 

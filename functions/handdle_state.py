@@ -40,19 +40,19 @@ def handle_state_playing(game, screen, sound, state="playing", running=True):
                 return "menu", False
 
             elif event.key == AZERTY.K_UP:
-                if game.snakes[0].move_up(game.apples) == "game over":
+                if game.snakes[0].move_up(game) == "game over":
                     return "game over", False
 
             elif event.key == AZERTY.K_LEFT:
-                if game.snakes[0].move_left(game.apples) == "game over":
+                if game.snakes[0].move_left(game) == "game over":
                     return "game over", False
 
             elif event.key == AZERTY.K_RIGHT:
-                if game.snakes[0].move_right(game.apples) == "game over":
+                if game.snakes[0].move_right(game) == "game over":
                     return "game over", False
 
             elif event.key == AZERTY.K_DOWN:
-                if game.snakes[0].move_down(game.apples) == "game over":
+                if game.snakes[0].move_down(game) == "game over":
                     return "game over", False
 
     return state, running

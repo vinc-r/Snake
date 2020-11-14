@@ -29,8 +29,8 @@ MAX_NAME_LENGTH = 6
 ##################
 
 # Dimmensions of the board game arena
-SNAKE_WIDTH = 3
-SNAKE_HEIGHT = 3
+SNAKE_WIDTH = 5
+SNAKE_HEIGHT = 5
 MARGIN = 10
 
 # SIze of snake cube (in pixels)
