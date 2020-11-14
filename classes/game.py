@@ -42,9 +42,9 @@ class Game:
         self.apples = {
             'pos' : apples_positions,
             'cube' : [Cube(
-                x=MARGIN+(apples_positions[i][0])*(CUBE_SIZE),
-                y=MARGIN+(apples_positions[i][1])*(CUBE_SIZE),
-                cube_type="apple",
+                y=MARGIN+(apples_positions[i][0])*(CUBE_SIZE),
+                x=MARGIN+(apples_positions[i][1])*(CUBE_SIZE),
+                cube_type="apple"
                 ) for i in range(nb_players)]
         }
 
@@ -54,9 +54,9 @@ class Game:
             for body_part_pos in snake.body['pos']:
                 self.grid_list[body_part_pos[0]][body_part_pos[1]] = "p"
         try:
-            for apple in self.apples:
-                print(apple["pos"])
-                self.grid_list[apple["pos"][0]][apple["pos"][1]]
+            for apple_pos in self.apples['pos']:
+                print(apple_pos)
+                self.grid_list[apple_pos[0]][apple_pos[1]]
         except AttributeError:
             # if apple not created yet !
             pass 
@@ -76,6 +76,21 @@ class Game:
         self.grid_list[pos[0]][pos[1]] = "a"
         print("gird with apple", self.grid_list)
         return pos
+
+    def new_apple(self, deleting_apple_pos, new_apple_pos=None):
+        if new_apple_pos is None:
+            self.update_grid()
+            new_apple_pos = self.find_new_apple_position()
+
+        for i in range(len(self.apples['pos'])):
+            if self.apples['pos'][i] == deleting_apple_pos:
+                self.apples['pos'][i] = new_apple_pos
+                self.apples['cube'][i] = Cube(
+                    y=MARGIN+(new_apple_pos[0])*(CUBE_SIZE),
+                    x=MARGIN+(new_apple_pos[1])*(CUBE_SIZE),
+                    cube_type="apple"
+                )
+        self.update_grid()
 
     def get_playing_time(self):
         return self.time_playing / 1000
